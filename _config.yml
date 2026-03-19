@@ -1,0 +1,4 @@
+theme: jekyll-theme-midnight
+title: TimeTick Project
+include:
+  - SRS.pdf
