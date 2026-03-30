@@ -1,12 +1,35 @@
-# TimeTick
+# bse-irl-Romanenko
 
-## Команда
+Власний README.md. Використовується для лабораторної роботи з ОПІ та знаходиться в власному branch.
 
-- Петренко Владислав Сергійович
-- Романенко Андрій Юрійович
-- Шендра Кирило Олексійович
-- Данілєвський Денис Андрійович
+## Автор
 
-## SRS
+- Романенко Андрій, група ПЗПІ-25-1
 
-  [SRS на GitHub](https://github.com/SomeoneHere-git/SomeoneHere-git.github.io/blob/main/SRS.pdf)
+- Email: andrii.romanenko2@nure.ua
+
+
+## Технології
+
+- Мова програмування: C++ 15.2.0
+
+- IDE: Visual Studio Code 1.113.0
+
+- VCS: Git 2.53.0 + GitHub
+
+- AI-асистент: GitHub Copilot Student / Codeium
+
+
+## Встановлення та запуск
+
+```bash
+
+git clone https://github.com/AndriiRomanenko2/bse-irl-Romanenko
+
+cd project
+
+```
+
+## Ліцензія
+
+MIT License
