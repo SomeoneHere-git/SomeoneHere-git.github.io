@@ -33,20 +33,20 @@ void PickTheme() {
 
 void ApplyLightTheme() {
     std::cout << "Light Theme applied!" << std::endl;
-    // Code to change the application's color scheme to light theme;
+    // Code to change the application's color scheme to light theme
 }
 
 void ApplyDarkTheme() {
     std::cout << "Dark Theme applied!" << std::endl;
-    // Code to change the application's color scheme to dark theme;
+    // Code to change the application's color scheme to dark theme
 }
 
 void ApplyBlueTheme() {
     std::cout << "Blue Theme applied!" << std::endl;
-    // Code to change the application's color scheme to blue theme;
+    // Code to change the application's color scheme to blue theme
 }
 
 void ApplyGreenTheme() {
     std::cout << "Green Theme applied!" << std::endl;
-    //Code to change the application's color scheme to green theme;
+    //Code to change the application's color scheme to green theme
 }
