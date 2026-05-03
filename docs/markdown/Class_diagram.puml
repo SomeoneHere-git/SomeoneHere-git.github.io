@@ -1,0 +1,73 @@
+@startuml
+skinparam style strictuml
+skinparam monochrome true
+
+package "User Management" {
+    class User {
+        +id: int
+        +email: string
+        +authenticate()
+    }
+
+    class Admin {
+        +addUserToTeam(user: User)
+        +removeUserFromTeam(user: User)
+    }
+
+    class Team {
+        +id: int
+        +name: string
+        +members: List<User>
+    }
+
+    Admin --|> User
+    User "*" -- "1" Team : belongs to
+}
+
+package "Task Management" {
+    class Task {
+        +id: int
+        +description: string
+        +status: TaskStatus
+        +deadline: DateTime
+        +assignedUsers: List<User>
+        +updateStatus(newStatus: TaskStatus)
+        +subscribeUser(user: User)
+    }
+
+    enum TaskStatus {
+        TODO
+        IN_PROGRESS
+        DONE
+    }
+
+    class Timer {
+        +remainingTime: Duration
+        +autoUpdateTime()
+        +checkDeadline()
+    }
+
+    Task "1" *-- "1" Timer
+    User "0..*" -- "0..*" Task : subscribed to
+}
+
+package "Notifications & Settings" {
+    class NotificationService {
+        +notifyDeadlineReached(task: Task)
+    }
+
+    class MediaSettings {
+        +selectedMusic: String
+        +selectMusic(track: String)
+    }
+
+    NotificationService ..> Task : monitors
+}
+
+' Mapping back to source requirements
+' UC-01: Admin management
+' UC-02 & UC-05: Timer logic[cite: 2, 4]
+' UC-03 & UC-06: Task interaction[cite: 2, 4]
+' FR-4: Media selection
+
+@enduml

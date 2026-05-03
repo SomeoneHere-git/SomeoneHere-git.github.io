@@ -1,0 +1,57 @@
+@startuml
+!theme spacelab
+left to right direction
+
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Користувач" as User
+actor "Адміністратор" as Admin
+actor "Система" as Sys <<System>>
+
+rectangle "Система управління завданнями" {
+  
+  ' FR-1: Управління командою
+  usecase "Додавання в команду" as UC01
+  usecase "Видалення з команди" as UC07
+  
+  ' FR-2: Підписки
+  usecase "Підписування на завдання" as UC06
+  
+  ' FR-3: Реєстрація та аутентифікація
+  usecase "Реєстрація через email" as UC08
+  usecase "Аутентифікація" as UC04
+  
+  ' FR-4: Медіа
+  usecase "Вибір музики" as UC09
+  
+  ' FR-5: Сповіщення
+  usecase "Автоматичне сповіщення про дедлайн" as UC11
+  
+  ' FR-6: Таймер
+  usecase "Автоматичне оновлення часу" as UC05
+  usecase "Встановлення таймеру" as UC02
+  
+  ' FR-7: Стан завдання
+  usecase "Зміна стану завдання" as UC03
+}
+
+' Зв'язки Адміністратора
+Admin --> UC01
+Admin --> UC07
+Admin --> UC02
+Admin --> UC04
+Admin --> UC06
+
+' Зв'язки Користувача
+User --> UC08
+User --> UC04
+User --> UC06
+User --> UC03
+User --> UC09
+
+' Системні (автоматичні) дії
+Sys --> UC05
+Sys --> UC11
+
+@enduml
