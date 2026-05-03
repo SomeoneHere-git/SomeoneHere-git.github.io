@@ -1,0 +1,34 @@
+@startuml use-case
+
+' Автор: Данілєвський Денис Андрійович
+' Проєкт: TickTime | Діаграма прецедентів (FR-01, FR-02)
+
+left to right direction
+
+actor "Гість" as Guest
+actor "Зареєстрований\nКористувач" as User
+actor "Керівник Групи" as Leader
+
+rectangle "TickTime" {
+  usecase "UC-01\nРеєстрація через email" as UC01
+  usecase "UC-02\nАвтентифікація (Login)" as UC02
+  usecase "UC-03\nСтворення команди /\nДоєднання до команди" as UC03
+  usecase "UC-04\nОновлення прогресу\nзавдання" as UC04
+  usecase "UC-05\nДодавання / видалення\nучасника команди" as UC05
+}
+
+Guest --> UC01
+User --> UC02
+User --> UC03
+User --> UC04
+Leader --> UC05
+
+UC03 ..> UC02 : <<include>>
+UC04 ..> UC02 : <<include>>
+UC05 ..> UC02 : <<include>>
+UC05 ..> UC03 : <<extend>>
+
+User --|> Guest
+Leader --|> User
+
+@enduml
