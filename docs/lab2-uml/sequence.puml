@@ -1,0 +1,49 @@
+@startuml sequence
+
+' Автор: Данілєвський Денис Андрійович
+' Проєкт: TickTime | Діаграма послідовності — UC-03 (FR-01, FR-02)
+
+autoactivate on
+
+actor "Керівник" as Leader
+participant "UI (Electron)" as UI
+participant ":AuthService" as Auth
+participant ":TeamService" as TeamSvc
+participant "MongoDB (AWS)" as DB
+actor "Учасник" as Member
+
+Leader -> UI : Відкрити "Створити команду"
+UI -> Auth : validateToken(authToken)
+return true
+
+UI -> TeamSvc : createTeam(name, leaderId)
+TeamSvc -> DB : INSERT team {name, leaderId, createdAt}
+return teamId
+return team : Team
+UI --> Leader : Команду створено ✓
+deactivate UI
+
+Leader -> UI : Додати учасника (email)
+UI -> Auth : validateToken(authToken)
+return true
+
+UI -> TeamSvc : addMember(teamId, memberEmail)
+
+alt Користувач знайдений
+  TeamSvc -> DB : SELECT user WHERE email = memberEmail
+  return user : User
+  TeamSvc -> DB : INSERT team_member {teamId, userId}
+  return ok
+  return success
+  UI --> Leader : Учасника додано ✓
+  UI --> Member : Сповіщення: "Вас додано до команди"
+  deactivate UI
+else Користувач не знайдений
+  TeamSvc -> DB : SELECT user WHERE email = memberEmail
+  return null
+  return UserNotFoundException
+  UI --> Leader : Помилка: "Користувача не знайдено"
+  deactivate UI
+end
+
+@enduml
