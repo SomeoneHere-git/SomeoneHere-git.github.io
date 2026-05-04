@@ -1,0 +1,72 @@
+@startuml class-diagram
+
+' Автор: Данілєвський Денис Андрійович
+' Проєкт: TickTime | Діаграма класів (FR-01, FR-02)
+
+class User {
+  - userId : String
+  - email : String
+  - passwordHash : String
+  - role : UserRole
+  + register(email: String, pwd: String) : Boolean
+  + login(email: String, pwd: String) : AuthToken
+  + getActiveTeams() : List<Team>
+}
+
+class Leader {
+  - staffId : String
+  + createTeam(name: String) : Team
+  + addMember(user: User) : void
+  + removeMember(userId: String) : void
+}
+
+class Team {
+  - teamId : String
+  - name : String
+  - createdAt : Date
+  - leaderId : String
+  + create(name: String, leader: Leader) : Team
+  + join(user: User) : void
+  + getMembers() : List<User>
+}
+
+class Task {
+  - taskId : String
+  - title : String
+  - status : TaskStatus
+  - assigneeId : String
+  + updateProgress(status: TaskStatus) : void
+  + getAssignee() : User
+}
+
+class AuthService {
+  + authenticate(email: String, pwd: String) : AuthToken
+  + register(email: String, pwd: String) : User
+  + validateToken(token: AuthToken) : Boolean
+  + hashPassword(pwd: String) : String
+}
+
+class AuthToken {
+  - token : String
+  - expiresAt : Date
+  - userId : String
+  + isValid() : Boolean
+}
+
+' Наслідування: Керівник є Користувачем
+Leader --|> User
+
+' Агрегація: користувач бере участь у командах
+User "1" o-- "0..*" Team : бере участь у
+
+' Композиція: завдання існують лише в команді
+Team "1" *-- "1..*" Task : містить
+
+' Асоціація: завдання призначається виконавцю
+Task "0..*" --> "1" User : призначена
+
+' Залежності
+AuthService ..> User : створює / валідує
+AuthService ..> AuthToken : видає
+
+@enduml
