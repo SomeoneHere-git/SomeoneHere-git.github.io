@@ -1,0 +1,29 @@
+@startuml
+autonumber
+actor "Учасник команди" as User
+participant ":UI_Interface" as UI
+participant ":Task" as T
+participant ":Database" as DB
+
+User -> UI : Вводить новий прогрес (напр. 80%)
+activate UI
+
+UI -> T : updateProgress(80)
+activate T
+
+alt прогрес <= 100
+    T -> T : Розрахунок внутрішнього стану
+    T -> DB : saveChanges()
+    activate DB
+    DB --> T : success
+    deactivate DB
+    
+    T --> UI : "Дані оновлено"
+else прогрес > 100
+    T --> UI : "Помилка: значення завелике"
+end
+deactivate T
+
+UI --> User : Відображення результату
+deactivate UI
+@enduml

@@ -1,0 +1,48 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+  - int id
+  - String email
+  - String password
+  + login() : bool
+  + joinTeam(teamId : int) : void
+}
+
+class TeamLead {
+  - String rolePermissions
+  + addUserToTeam(u : User) : void
+  + removeUserFromTeam(u : User) : void
+}
+
+class Team {
+  - int teamId
+  - String teamName
+  - List<User> members
+  + getProgress() : double
+}
+
+class Task {
+  - int taskId
+  - String description
+  - int progressPercentage
+  - int assignedUserId
+  + updateProgress(newProgress : int) : void
+}
+
+class MusicPlayer {
+  - float volume
+  - String currentTrack
+  + setVolume(value : float) : void
+  + playTrack(trackName : String) : void
+}
+
+' Зв'язки
+User <|-- TeamLead : inheritance (наслідування)
+
+Team "1" o-- "1..*" User : aggregation (команда складається з користувачів)
+Team "1" *-- "*" Task : composition (завдання належать команді)
+
+User "1" -- "*" Task : association (користувачу призначені завдання)
+User "1" -- "1" MusicPlayer : uses (користувач керує музикою)
+@enduml

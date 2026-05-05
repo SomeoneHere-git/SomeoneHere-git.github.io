@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+
+actor "Користувач" as User
+actor "Керівник групи" as Lead
+
+rectangle "Система управління командами" {
+  usecase "Реєстрація" as UC_Reg
+  usecase "Автентифікація" as UC_Auth
+  usecase "Створення/Вступ у команду" as UC_Team
+  usecase "Оновлення прогресу завдання" as UC_Progress
+  usecase "Керування учасниками" as UC_Manage
+  usecase "Налаштування фонової музики" as UC_Music
+}
+
+User --> UC_Reg
+User --> UC_Auth
+User --> UC_Team
+User --> UC_Progress
+User --> UC_Music
+
+Lead --|> User
+Lead --> UC_Manage
+
+UC_Team ..> UC_Auth : <<include>>
+UC_Progress ..> UC_Auth : <<include>>
+UC_Manage ..> UC_Auth : <<include>>
+
+UC_Progress <.. UC_Music : <<extend>>
+@enduml
