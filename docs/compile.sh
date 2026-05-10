@@ -1,13 +1,14 @@
 #/bin/bash
 
 #Delete old files
-rm ./*.png
-rm ./*.pdf
+# rm ./*.png
+# rm ./*.pdf
 
 for file in ./markdown/*.puml; do
-  plantuml "$file"
+  plantuml "$file" -o "."
 done
 
 for file in ./markdown/*.typ; do
-  typst compile "$file"
+  filename=$(basename "${file%.*}.pdf")
+  typst compile "$file" "./$filename"
 done
