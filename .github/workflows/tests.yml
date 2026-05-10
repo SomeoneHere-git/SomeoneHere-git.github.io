@@ -1,0 +1,28 @@
+name: Unit Tests C++
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y cmake g++ libgtest-dev lcov
+
+      - name: Configure
+        run: cmake -S lab3 -B lab3/build -DENABLE_COVERAGE=ON
+
+      - name: Build
+        run: cmake --build lab3/build -j4
+
+      - name: Run tests
+        run: ./lab3/build/lab3_tests
+
+      - name: Coverage summary
+        run: |
+          cd lab3/build
+          lcov --capture --directory . --output-file cov.info --ignore-errors mismatch
+          lcov --remove cov.info '*/googletest/*' '/usr/*' -o cov_filtered.info
+          lcov --summary cov_filtered.info
