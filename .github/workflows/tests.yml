@@ -22,7 +22,7 @@ jobs:
 
       - name: Coverage summary
         run: |
-          cd lab3/build
+          cd build
           lcov --capture --directory . --output-file cov.info --ignore-errors mismatch
-          lcov --remove cov.info '*/googletest/*' '/usr/*' -o cov_filtered.info
+          lcov --remove cov.info '/usr/*' -o cov_filtered.info
           lcov --summary cov_filtered.info
