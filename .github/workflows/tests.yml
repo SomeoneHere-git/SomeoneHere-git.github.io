@@ -1,26 +1,31 @@
-name: Unit Tests C++
-
+name: C++ Unit Tests
 on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    # Говорим GitHub выполнять все команды внутри папки lab3
+    defaults:
+      run:
+        working-directory: ./lab3
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get install -y cmake g++ libgtest-dev lcov
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev lcov
 
-      - name: Configure
-        run: cmake -S lab3 -B lab3/build -DENABLE_COVERAGE=ON
+      - name: Configure CMake (Creates build folder)
+        run: cmake -S . -B build -DENABLE_COVERAGE=ON
 
       - name: Build
-        run: cmake --build lab3/build -j4
+        run: cmake --build build -j4
 
-      - name: Run tests
-        run: ./lab3/build/lab3_tests
+      - name: Run Tests
+        run: ./build/lab3_tests
 
-      - name: Coverage summary
+      - name: Generate Coverage Report
         run: |
           cd build
           lcov --capture --directory . --output-file cov.info --ignore-errors mismatch
