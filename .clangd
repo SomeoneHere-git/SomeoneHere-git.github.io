@@ -1,0 +1,17 @@
+Index:
+  Background: Build
+
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: [performance-*, bugprone-*, modernize-*]
+
+InlayHints:
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+
+CompileFlags:
+
+  Add: [-std=c++23, -Wall]
