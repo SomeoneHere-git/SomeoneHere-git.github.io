@@ -1,0 +1,38 @@
+@startuml
+skinparam style strictuml
+autonumber
+
+actor "Користувач" as UserActor
+participant ":User" as UserObj
+participant ":Task" as TaskObj
+participant ":Timer" as TimerObj
+
+UserActor -> UserObj : authenticate(credentials)
+activate UserObj
+UserObj -->> UserActor : authStatus
+deactivate UserObj
+
+alt authStatus == success
+    UserActor -> TaskObj : subscribeUser(currentUser)
+    activate TaskObj
+    
+    ' Взаємодія з таймером (композиція з діаграми класів)
+    TaskObj -> TimerObj : checkDeadline()
+    activate TimerObj
+    TimerObj -->> TaskObj : isExpired
+    deactivate TimerObj
+    
+    alt isExpired == false
+        TaskObj -> TaskObj : updateStatus(IN_PROGRESS)
+        TaskObj -->> UserActor : confirmSuccess("Ви підписані")
+    else isExpired == true
+        TaskObj -->> UserActor : showErrorMessage("Термін виконання вийшов")
+    end
+    
+    deactivate TaskObj
+    
+else authStatus == failure
+    UserActor <- UserObj : showErrorMessage("Помилка входу")
+end
+
+@enduml

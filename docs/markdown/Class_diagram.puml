@@ -66,8 +66,8 @@ package "Notifications & Settings" {
 
 ' Mapping back to source requirements
 ' UC-01: Admin management
-' UC-02 & UC-05: Timer logic[cite: 2, 4]
-' UC-03 & UC-06: Task interaction[cite: 2, 4]
+' UC-02 & UC-05: Timer logic
+' UC-03 & UC-06: Task interaction
 ' FR-4: Media selection
 
 @enduml
