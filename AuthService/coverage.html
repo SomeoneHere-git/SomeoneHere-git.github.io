@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Lab3: C# Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+			.cov8 { color: rgb(44, 212, 149) }
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+					<option value="file0">Lab3.Core/AuthService.cs (100.0%)</option>
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0">package Lab3
+
+// Класи-заглушки даних користувача та токенів
+type AuthToken struct {
+        Token     string
+        ExpiresAt time.Time
+}
+
+type User struct {
+        Email        string
+        PasswordHash string
+}
+
+// Головний сервіс автентифікації користувачів
+type AuthService struct {
+        usersDb      []User
+        activeTokens map[string]AuthToken
+}
+
+func (s *AuthService) Authenticate(email string, pwd string) (*AuthToken, error) <span class="cov8" title="1">{
+        if email == "" || pwd == "" </span><span class="cov8" title="1">{
+                return nil, ErrEmptyCredentials
+        }</span>
+
+        <span class="cov8" title="1">user := s.FindUserByEmail(email)
+        if user == nil </span><span class="cov8" title="1">{
+                return nil, ErrUserNotFound
+        }</span>
+
+        <span class="cov8" title="1">incomingHash := s.HashPassword(pwd)
+        if user.PasswordHash != incomingHash </span><span class="cov8" title="1">{
+                return nil, ErrInvalidPassword
+        }</span>
+
+        <span class="cov8" title="1">token := &AuthToken{
+                Token:     GenerateGuid(),
+                ExpiresAt: time.Now().Add(2 * time.Hour),
+        }
+        s.activeTokens[token.Token] = *token
+        return token, nil</span>
+}
+
+func (s *AuthService) Register(email string, pwd string) (*User, error) <span class="cov8" title="1">{
+        if email == "" || len(pwd) &lt; 6 </span><span class="cov8" title="1">{
+                return nil, ErrInvalidRegistrationData
+        }</span>
+
+        <span class="cov8" title="1">if s.UserExists(email) </span><span class="cov8" title="1">{
+                return nil, ErrUserAlreadyExists
+        }</span>
+
+        <span class="cov8" title="1">newUser := &User{
+                Email:        email,
+                PasswordHash: s.HashPassword(pwd),
+        }
+        s.usersDb = append(s.usersDb, *newUser)
+        return newUser, nil</span>
+}
+
+func (s *AuthService) ValidateToken(token *AuthToken) bool <span class="cov8" title="1">{
+        if token == nil || token.Token == "" </span><span class="cov8" title="1">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">foundToken, exists := s.activeTokens[token.Token]
+        if exists </span><span class="cov8" title="1">{
+                if foundToken.ExpiresAt.After(time.Now()) </span><span class="cov8" title="1">{
+                        return true
+                }</span> else <span class="cov8" title="1">{
+                        delete(s.activeTokens, token.Token)
+                }</span>
+        }
+        <span class="cov8" title="1">return false</span>
+}
+
+func (s *AuthService) HashPassword(pwd string) string <span class="cov8" title="1">{
+        if pwd == "" </span><span class="cov8" title="1">{
+                return ""
+        }</span>
+        <span class="cov8" title="1">return ComputeSha256(pwd)</span>
+}
+</pre>
+		
+		</div>
+	</body>
+</html>
