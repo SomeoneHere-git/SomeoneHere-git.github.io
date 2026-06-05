@@ -3,12 +3,18 @@ project(Lab3_UnitTests CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Генерувати compile_commands.json для SonarLint / SonarQube
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # --- Google Test (системний пакет або FetchContent) ---
 find_package(GTest QUIET)
 if(NOT GTest_FOUND)
     include(FetchContent)
     FetchContent_Declare(googletest
-        SOURCE_DIR /usr/src/googletest)
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG        v1.14.0
+    )
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(googletest)
 else()
     include(GoogleTest)
@@ -33,7 +39,8 @@ target_link_libraries(lab3_tests
 # --- Підключення CTest ---
 enable_testing()
 include(GoogleTest)
-gtest_discover_tests(lab3_tests)
+# Використовуємо add_test замість gtest_discover_tests для обходу проблеми з кирилицею
+add_test(NAME lab3_tests COMMAND lab3_tests)
 
 # --- Покриття (lcov/gcov, тільки на GCC/Clang) ---
 option(ENABLE_COVERAGE "Enable code coverage" OFF)

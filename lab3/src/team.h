@@ -19,17 +19,21 @@ public:
          const std::string& name,
          const std::string& leaderId);
 
+    [[nodiscard]] std::string getTeamId() const { return teamId; }
+    [[nodiscard]] std::string getName() const { return name; }
+    [[nodiscard]] std::string getLeaderId() const { return leaderId; }
+
     // join: додає userId до команди
     // Кидає std::invalid_argument якщо userId порожній
     // Кидає std::runtime_error якщо userId вже є в команді
     void join(const std::string& userId);
 
     // getMembers: повертає копію списку учасників
-    std::vector<std::string> getMembers() const;
+    [[nodiscard]] std::vector<std::string> getMembers() const;
 
     // getMemberCount: повертає кількість учасників
-    size_t getMemberCount() const;
+    [[nodiscard]] size_t getMemberCount() const;
 
     // hasMember: перевіряє наявність userId у команді
-    bool hasMember(const std::string& userId) const;
+    [[nodiscard]] bool hasMember(const std::string& userId) const;
 };
