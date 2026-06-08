@@ -120,6 +120,8 @@ type MediaSettings struct {
 	SelectedMusic string
 }
 
+
 func (ms *MediaSettings) SelectMusic(track string) {
 	ms.SelectedMusic = track
 }
+
