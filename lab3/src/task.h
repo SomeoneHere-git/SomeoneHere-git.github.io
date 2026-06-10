@@ -11,11 +11,17 @@ enum class TaskStatus {
 
 // Клас Task — відповідає UML-моделі з ЛР 02
 class Task {
-public:
+private:
     std::string taskId;
     std::string title;
     TaskStatus  status;
     std::string assigneeId;
+
+public:
+    // Getters
+    [[nodiscard]] std::string getTaskId() const { return taskId; }
+    [[nodiscard]] std::string getTitle() const { return title; }
+    [[nodiscard]] TaskStatus getStatus() const { return status; }
 
     // Конструктор: створює задачу зі статусом TODO
     // Кидає std::invalid_argument, якщо taskId або title порожні

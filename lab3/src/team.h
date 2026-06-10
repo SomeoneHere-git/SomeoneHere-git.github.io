@@ -28,8 +28,8 @@ public:
     // Кидає std::runtime_error якщо userId вже є в команді
     void join(const std::string& userId);
 
-    // getMembers: повертає копію списку учасників
-    [[nodiscard]] std::vector<std::string> getMembers() const;
+    // getMembers: повертає константне посилання на список учасників
+    [[nodiscard]] const std::vector<std::string>& getMembers() const;
 
     // getMemberCount: повертає кількість учасників
     [[nodiscard]] size_t getMemberCount() const;

@@ -3,6 +3,7 @@
 Task::Task(const std::string& taskId,
            const std::string& title,
            const std::string& assigneeId)
+    : taskId(taskId), title(title), status(TaskStatus::TODO), assigneeId(assigneeId)
 {
     if (taskId.empty()) {
         throw std::invalid_argument("taskId cannot be empty");
@@ -10,10 +11,6 @@ Task::Task(const std::string& taskId,
     if (title.empty()) {
         throw std::invalid_argument("title cannot be empty");
     }
-    this->taskId     = taskId;
-    this->title      = title;
-    this->assigneeId = assigneeId;
-    this->status     = TaskStatus::TODO;
 }
 
 void Task::updateProgress(TaskStatus newStatus)

@@ -27,7 +27,7 @@ void Team::join(const std::string& userId)
     memberIds.push_back(userId);
 }
 
-std::vector<std::string> Team::getMembers() const
+const std::vector<std::string>& Team::getMembers() const
 {
     return memberIds;
 }
